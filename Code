@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clicker Game</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      height: 100vh;
+      position: relative;
+    }
+
+    #gameContainer {
+      text-align: center;
+    }
+
+    /* Styles for game elements */
+    #counter {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    #clickBtn, .shopButton {
+      padding: 10px 20px;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 10px;
+    }
+    #clickBtn {
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+    }
+    .shopButton {
+      background-color: #27ae60;
+      color: #fff;
+      border: none;
+    }
+    .item {
+      border: 2px solid #3498db;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px;
+      min-width: 200px;
+    }
+    .petItem {
+      border: 2px solid #e74c3c;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px;
+      min-width: 200px;
+    }
+
+    /* Leaderboard styles */
+    #leaderboard {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    #leaderList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #leaderList li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="leaderboard">
+    <h2>Leaderboard</h2>
+    <ol id="leaderList">
+      <!-- Placeholder list items -->
+      <li>Player 1: 1000 cookies</li>
+      <li>Player 2: 800 cookies</li>
+      <li>Player 3: 600 cookies</li>
+      <li>Player 4: 400 cookies</li>
+      <li>Player 5: 200 cookies</li>
+    </ol>
+  </div>
+
+  <div id="gameContainer">
+    <h1>Clicker Game</h1>
+    <p>Click the button to generate cookies:</p>
+    <p id="counter">0</p>
+    <button id="clickBtn">Click Me</button>
+
+    <div id="shop">
+      <!-- Auto Clicker item -->
+      <div class="item">
+        <p>Auto Clicker</p>
+        <p>Cost: <span id="autoClickerCost">50</span> cookies</p>
+        <button class="shopButton" onclick="buyAutoClicker()">Buy Auto Clicker</button>
+      </div>
+    </div>
+
+    <div id="petSection">
+      <!-- Pet item -->
+      <div class="petItem">
+        <p>Pet</p>
+        <p>Cost: <span id="petCost">500</span> cookies</p>
+        <button class="shopButton" onclick="buyPet()">Buy Pet</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let count = 0;
+    let autoClickers = 0;
+    let autoClickerCost = 50;
+    let pets = 0;
+    let petCost = 500;
+    const counter = document.getElementById('counter');
+    const clickBtn = document.getElementById('clickBtn');
+    const autoClickerCostSpan = document.getElementById('autoClickerCost');
+    const petCostSpan = document.getElementById('petCost');
+
+    clickBtn.addEventListener('click', () => {
+      count++;
+      counter.textContent = count;
+    });
+
+    function buyAutoClicker() {
+      if (count >= autoClickerCost) {
+        autoClickers++;
+        count -= autoClickerCost;
+        autoClickerCost *= 2;
+        counter.textContent = count;
+        autoClickerCostSpan.textContent = autoClickerCost;
+        setInterval(() => {
+          count += autoClickers;
+          counter.textContent = count;
+        }, 1000);
+      } else {
+        alert("Not enough cookies!");
+      }
+    }
+
+    function buyPet() {
+      if (count >= petCost) {
+        pets++;
+        count -= petCost;
+        petCost *= 2;
+        counter.textContent = count;
+        petCostSpan.textContent = petCost;
+        clickBtn.addEventListener('click', () => {
+          count += pets;
+          counter.textContent = count;
+        });
+      } else {
+        alert("Not enough cookies!");
+      }
+    }
+  </script>
+</body>
+</html>
